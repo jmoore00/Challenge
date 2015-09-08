@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Challenge</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head><body>
+
+    <div ng-form="" ng-app="myApp" ng-controller="customersCtrl">
+
+        
+            <table>
+                <tr><td>Filter by First Name:</td><td> <input type="text" ng-model="search.firstName"></td></tr>
+                <tr><td>Filter by Last Name:</td><td> <input type="text" ng-model="search.lastName"></td></tr>
+                <tr><td>Filter by City:</td><td> <input type="text" ng-model="search.city"></td></tr>
+                <tr><td>Filter by State Code:</td><td> <input type="text" ng-model="search.stateCode"></td></tr>
+            </table>
+            <hr />
+        <ul>
+            <li ng-repeat="x in names | filter:search">
+                {{ x.firstName + ' ' + x.lastName + ' - ' + x.city + ', ' + x.stateCode }}
+            </li>
+        </ul>
+
+    </div>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function ($scope, $http) {
+            $http.get("https://my.ncarb.org/Public/api/certification/search?pageSize=100&page=0&lastName=&firstName=&city=&stateCode=&countryCode=&orderBy=name")
+            .success(function (response) { $scope.names = response.data; });
+        });
+    </script>
+
+</body>
+</html>
